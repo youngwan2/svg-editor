@@ -1,6 +1,7 @@
 # 단순한 SVG 에디터
 
 React와 TypeScript로 구축한 간단한 SVG 에디터로, 사용자가 사각형, 원, 타원형을 그릴 수 있으며, 드래그로 이동하고, 가져오기 및 내보내기 기능을 제공합니다. 또한, 선택한 도형을 삭제하거나 수정할 수 있습니다.
+![image](https://github.com/user-attachments/assets/5445ff52-8cf2-4c55-bbaf-19607a163515)
 
 ## 기능
 

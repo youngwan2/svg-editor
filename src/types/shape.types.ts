@@ -1,6 +1,7 @@
-export type Shape = {
+
+export interface ShapeType {
     id: string;
-    type: 'rect' | 'circle' | 'ellipse';
+
     x: number;
     y: number;
     width: number;
@@ -9,3 +10,9 @@ export type Shape = {
     stroke: string;
     strokeWidth: number;
 };
+
+export interface Shape extends ShapeType {
+    type: 'rect' | 'circle' | 'ellipse' | 'polygon'
+}
+
+export type ShapeTypeL = 'rect' | 'circle' | 'ellipse' | 'polygon'

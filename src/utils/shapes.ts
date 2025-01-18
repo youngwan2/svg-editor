@@ -1,11 +1,11 @@
 import { Shape } from '../types/shape.types';
 
-export const addShape = (
-    shapes: Shape[],
-    setShapes: React.Dispatch<React.SetStateAction<Shape[]>>,
+
+/** 도형 추가 */
+export const createShape = (
     shapeCounter: number,
-    type: 'rect' | 'circle' | 'ellipse'
-): void => {
+    type: 'rect' | 'circle' | 'ellipse' | 'polygon'
+): Shape => {
     const newShape: Shape = {
         id: `shape${shapeCounter}`,
         type,
@@ -17,10 +17,11 @@ export const addShape = (
         stroke: '#000000',
         strokeWidth: 1,
     };
-
-    setShapes([...shapes, newShape]);
+    return newShape
 };
 
+
+/** 선택된 도형 삭제 */
 export const deleteSelected = (
     selectedShape: Shape | null,
     shapes: Shape[],
@@ -33,6 +34,7 @@ export const deleteSelected = (
     }
 };
 
+/** SVG 내보내기 */
 export const importSVG = async (
     event: React.ChangeEvent<HTMLInputElement>,
     setShapes: React.Dispatch<React.SetStateAction<Shape[]>>,
@@ -106,4 +108,18 @@ export const exportSVG = (canvasRef: React.RefObject<SVGSVGElement>): void => {
             alert('SVG copied to clipboard!');
         });
     }
+};
+
+/**
+ * 폴리곤 도형 생성
+ */
+export const getPolygonPoints = (x: number, y: number, width: number, height: number, sides: number) => {
+    const angle = (2 * Math.PI) / sides;
+    const points = [];
+    for (let i = 0; i < sides; i++) {
+        const px = x + width * Math.cos(i * angle);
+        const py = y + height * Math.sin(i * angle);
+        points.push(`${px},${py}`);
+    }
+    return points.join(' ');
 };

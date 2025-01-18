@@ -57,3 +57,11 @@ select {
   height: 100%;
   cursor: pointer;
 }
+
+.removeButton {
+  background-color: rgb(194, 31, 31);
+}
+
+.removeButton:hover {
+  background-color: rgb(150, 21, 21);
+}

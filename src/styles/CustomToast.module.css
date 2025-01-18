@@ -1,0 +1,107 @@
+.toastContainer {
+  max-width: 28rem;
+  width: 100%;
+  background-color: white;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+  border-radius: 0.5rem;
+  pointer-events: auto;
+  display: flex;
+  ring: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.toastContent {
+  flex: 1;
+  width: 0;
+  padding: 1rem;
+}
+
+.toastHeader {
+  display: flex;
+  align-items: flex-start;
+}
+
+.toastImage {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 9999px;
+}
+
+.toastUserDetails {
+  margin-left: 0.75rem;
+  flex: 1;
+}
+
+.toastUserName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1a202c;
+}
+
+.toastMessage {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.toastCloseContainer {
+  display: flex;
+  border-left: 1px solid #e5e7eb;
+}
+
+.toastCloseButton {
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4f46e5;
+  background-color: transparent;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.toastCloseButton:hover {
+  color: #4338ca;
+}
+
+.toastCloseButton:focus {
+  outline: 2px solid #4338ca;
+}
+
+.toastAnimationEnter {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.toastAnimationLeave {
+  animation: fadeOut 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}

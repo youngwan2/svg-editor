@@ -1,6 +1,7 @@
 import styles from '../styles/Canvas.module.css';
 
 import { useEffect, useState } from 'react';
+import { getPolygonPoints } from '../utils/shapes';
 
 interface CanvasProps {
     shapes: any[];
@@ -17,6 +18,7 @@ export default function Canvas({ shapes, setShapes, selectedShape, setSelectedSh
 
 
     useEffect(() => {
+        //  도형 이동
         const handleMouseMove = (e: any) => {
             if (isDragging && selectedShape) {
                 const dx = e.clientX - dragStart.x; // 도형의 실제 시작 위치
@@ -27,6 +29,7 @@ export default function Canvas({ shapes, setShapes, selectedShape, setSelectedSh
             }
         };
 
+        // 드래그 상태 관리
         const handleMouseUp = () => {
             setIsDragging(false);
         };
@@ -52,16 +55,6 @@ export default function Canvas({ shapes, setShapes, selectedShape, setSelectedSh
         }
     };
 
-    const getPolygonPoints = (x: number, y: number, width: number, height: number, sides: number) => {
-        const angle = (2 * Math.PI) / sides;
-        const points = [];
-        for (let i = 0; i < sides; i++) {
-            const px = x + width * Math.cos(i * angle);
-            const py = y + height * Math.sin(i * angle);
-            points.push(`${px},${py}`);
-        }
-        return points.join(' ');
-    };
 
     return (
         <div className={styles.canvas__container}>

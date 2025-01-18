@@ -1,12 +1,17 @@
 import styles from '../styles/ShapeControls.module.css';
 import { ChangeEvent } from 'react';
 
+import { Shape, ShapeTypeL } from '../types/shape.types';
+import { createShape } from '../utils/shapes';
+import toast from 'react-hot-toast/headless';
+
 
 interface ShapeControlsProps {
-    shapes: any[];
-    selectedShape: any | null;
-    setSelectedShape: (shape: any) => void;
-    updateShapes: (shapes: any[]) => void;
+    shapes: Shape[];
+    selectedShape: Shape | null;
+    setSelectedShape: (shape: Shape | null) => void;
+    updateShapes: (shapes: Shape[]) => void;
+
     onExportSvg: () => void;
 }
 
@@ -14,6 +19,39 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
 
     const handleShapeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
         const shape = shapes.find(s => s.id === e.target.value);
+
+        if (!Array.isArray(shape)) return
+
+        setSelectedShape(shape);
+    };
+
+    // 모양 삭제(전체)
+    const handleAllRemoveShape = () => {
+        if (shapes.length < 1) return toast("No created shapes")
+        const isRemove = confirm("Are you sure? Deleting this will remove everything. Can you be confident you won't regret it?");
+        if (isRemove) {
+            updateShapes([])
+        }
+    }
+
+
+    // 모양 삭제
+    const handleRemoveShape = () => {
+        if (!selectedShape) return toast("No selected shape")
+
+        const isRemove = confirm("Are you sure? The selected shape will be deleted");
+
+        if (isRemove) {
+            updateShapes(shapes.filter(s => s.id !== selectedShape.id));
+            setSelectedShape(null)
+        }
+    }
+
+
+    // 모양 추가
+    const handleAddShape = (selectedType: ShapeTypeL) => {
+        const newShape = createShape(shapes.length + 1, selectedType)
+
         setSelectedShape(shape);
     };
 
@@ -31,11 +69,24 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
             stroke: '#000000',
             strokeWidth: 1
         };
+
         updateShapes([...shapes, newShape]);
     };
 
     return (
         <div className={styles.controls}>
+
+            {/* 내보내기 */}
+            <div className={styles['control-group']}>
+                <h3>Import/Export</h3>
+                <button
+                    className={styles.exportButton}
+                    onClick={onExportSvg} // 내보내기 함수 호출
+                >
+                    Export SVG
+                </button>
+            </div>
+
             <div className={styles['control-group']}>
                 <h3>Add Shape</h3>
                 <button onClick={() => handleAddShape('rect')}>Add Rectangle</button>
@@ -53,6 +104,8 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
                     ))}
                 </select>
             </div>
+
+            {/* 선택된 도형 속성 선택기 */}
 
             {selectedShape && (
                 <div className={styles['control-group']}>
@@ -73,6 +126,12 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
                     <input type="number" value={selectedShape.width}
                         onChange={e => {
                             const value = parseInt(e.target.value);
+
+                            if (value >= 0) {
+                                updateShapeProperty('width', value);
+                            }
+                        }} min="0" max="1000" />
+
                             if (value > 0) {
                                 updateShapeProperty('width', value);
                             }
@@ -81,20 +140,36 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
                     <input type="number" value={selectedShape.height}
                         onChange={e => {
                             const value = parseInt(e.target.value);
+
+                            if (value >= 0) {
+                                updateShapeProperty('height', value);
+                            }
+                        }} min="0" max="1000" />
+                </div>
+            )}
+
+            {/* 도형 삭제 */}
+            <div className={styles['control-group']}>
+                <h3>Deletion Risk Zone</h3>
+                <button
+                    className={styles.removeButton}
+                    onClick={handleRemoveShape}
+                >
+                    Remove Selected SVG
+                </button>
+                <button
+                    className={styles.removeButton}
+                    onClick={handleAllRemoveShape}
+                >
+                    All Remove Selected SVG
+                </button>
+
                             if (value > 0) {
                                 updateShapeProperty('height', value);
                             }
                         }} min="1" max="1000" />
                 </div>
             )}
-            <div className={styles['control-group']}>
-                <button
-                    className={styles.exportButton}
-                    onClick={onExportSvg} // 내보내기 함수 호출
-                >
-                    Export SVG
-                </button>
-            </div>
         </div>
     );
 

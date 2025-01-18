@@ -2,6 +2,9 @@ import styles from '../styles/Canvas.module.css';
 
 import { useEffect, useState } from 'react';
 
+import { getPolygonPoints } from '../utils/shapes';
+
+
 interface CanvasProps {
     shapes: any[];
     setShapes: (shapes: any[]) => void;
@@ -17,6 +20,7 @@ export default function Canvas({ shapes, setShapes, selectedShape, setSelectedSh
 
 
     useEffect(() => {
+        //  도형 이동
         const handleMouseMove = (e: any) => {
             if (isDragging && selectedShape) {
                 const dx = e.clientX - dragStart.x; // 도형의 실제 시작 위치
@@ -26,6 +30,9 @@ export default function Canvas({ shapes, setShapes, selectedShape, setSelectedSh
                 setShapes(shapes.map(shape => (shape.id === selectedShape.id ? updatedShape : shape)));
             }
         };
+
+
+        // 드래그 상태 관리
 
         const handleMouseUp = () => {
             setIsDragging(false);

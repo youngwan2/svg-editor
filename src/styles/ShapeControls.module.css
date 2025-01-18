@@ -58,6 +58,14 @@ select {
   cursor: pointer;
 }
 
+.exportButton {
+  background-color: #164e0b;
+}
+
+.exportButton:hover {
+  background-color: #103607;
+}
+
 .removeButton {
   background-color: rgb(194, 31, 31);
 }

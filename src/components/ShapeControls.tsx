@@ -55,6 +55,7 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
         <div className={styles.controls}>
             {/* 내보내기 */}
             <div className={styles['control-group']}>
+                <h3>Import/Export</h3>
                 <button
                     className={styles.exportButton}
                     onClick={onExportSvg} // 내보내기 함수 호출

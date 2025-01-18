@@ -17,7 +17,7 @@ export default function Canvas({ shapes, setShapes, selectedShape, setSelectedSh
 
 
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
+        const handleMouseMove = (e: any) => {
             if (isDragging && selectedShape) {
                 const dx = e.clientX - dragStart.x;
                 const dy = e.clientY - dragStart.y;

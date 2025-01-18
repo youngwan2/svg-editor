@@ -1,6 +1,8 @@
 
+
 export interface ShapeType {
     id: string;
+
 
     x: number;
     y: number;

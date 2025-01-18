@@ -6,6 +6,7 @@ export const createShape = (
     shapeCounter: number,
     type: 'rect' | 'circle' | 'ellipse' | 'polygon'
 ): Shape => {
+
     const newShape: Shape = {
         id: `shape${shapeCounter}`,
         type,
@@ -17,6 +18,7 @@ export const createShape = (
         stroke: '#000000',
         strokeWidth: 1,
     };
+
     return newShape
 };
 
@@ -34,7 +36,9 @@ export const deleteSelected = (
     }
 };
 
+
 /** SVG 내보내기 */
+
 export const importSVG = async (
     event: React.ChangeEvent<HTMLInputElement>,
     setShapes: React.Dispatch<React.SetStateAction<Shape[]>>,
@@ -110,6 +114,7 @@ export const exportSVG = (canvasRef: React.RefObject<SVGSVGElement>): void => {
     }
 };
 
+
 /**
  * 폴리곤 도형 생성
  */
@@ -123,3 +128,4 @@ export const getPolygonPoints = (x: number, y: number, width: number, height: nu
     }
     return points.join(' ');
 };
+

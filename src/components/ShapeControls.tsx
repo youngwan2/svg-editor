@@ -1,5 +1,6 @@
 import styles from '../styles/ShapeControls.module.css';
 import { ChangeEvent } from 'react';
+
 import { Shape, ShapeTypeL } from '../types/shape.types';
 import { createShape } from '../utils/shapes';
 import toast from 'react-hot-toast/headless';
@@ -10,6 +11,7 @@ interface ShapeControlsProps {
     selectedShape: Shape | null;
     setSelectedShape: (shape: Shape | null) => void;
     updateShapes: (shapes: Shape[]) => void;
+
     onExportSvg: () => void;
 }
 
@@ -17,6 +19,7 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
 
     const handleShapeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
         const shape = shapes.find(s => s.id === e.target.value);
+
         if (!Array.isArray(shape)) return
 
         setSelectedShape(shape);
@@ -48,11 +51,31 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
     // 모양 추가
     const handleAddShape = (selectedType: ShapeTypeL) => {
         const newShape = createShape(shapes.length + 1, selectedType)
+
+        setSelectedShape(shape);
+    };
+
+
+
+    const handleAddShape = (type: string) => {
+        const newShape = {
+            id: `shape${shapes.length + 1}`,
+            type,
+            x: 100,
+            y: 100,
+            width: 100,
+            height: 100,
+            fill: '#ff0000',
+            stroke: '#000000',
+            strokeWidth: 1
+        };
+
         updateShapes([...shapes, newShape]);
     };
 
     return (
         <div className={styles.controls}>
+
             {/* 내보내기 */}
             <div className={styles['control-group']}>
                 <h3>Import/Export</h3>
@@ -63,6 +86,7 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
                     Export SVG
                 </button>
             </div>
+
             <div className={styles['control-group']}>
                 <h3>Add Shape</h3>
                 <button onClick={() => handleAddShape('rect')}>Add Rectangle</button>
@@ -82,6 +106,7 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
             </div>
 
             {/* 선택된 도형 속성 선택기 */}
+
             {selectedShape && (
                 <div className={styles['control-group']}>
                     <h3>Properties</h3>
@@ -93,7 +118,7 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
                     <input type="number" value={selectedShape.strokeWidth}
                         onChange={e => {
                             const value = parseInt(e.target.value);
-                            if (value >= 0) {
+                            if (value > 0) {
                                 updateShapeProperty('strokeWidth', value);
                             }
                         }} min="0" max="20" />
@@ -101,14 +126,21 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
                     <input type="number" value={selectedShape.width}
                         onChange={e => {
                             const value = parseInt(e.target.value);
+
                             if (value >= 0) {
                                 updateShapeProperty('width', value);
                             }
                         }} min="0" max="1000" />
+
+                            if (value > 0) {
+                                updateShapeProperty('width', value);
+                            }
+                        }} min="1" max="1000" />
                     <label>Shape Height</label>
                     <input type="number" value={selectedShape.height}
                         onChange={e => {
                             const value = parseInt(e.target.value);
+
                             if (value >= 0) {
                                 updateShapeProperty('height', value);
                             }
@@ -132,7 +164,12 @@ export default function ShapeControls({ shapes, selectedShape, setSelectedShape,
                     All Remove Selected SVG
                 </button>
 
-            </div>
+                            if (value > 0) {
+                                updateShapeProperty('height', value);
+                            }
+                        }} min="1" max="1000" />
+                </div>
+            )}
         </div>
     );
 

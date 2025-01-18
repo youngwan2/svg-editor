@@ -5,6 +5,7 @@ import ShapeControls from './components/ShapeControls';
 import Canvas from './components/Canvas';
 import Header from './components/Header';
 import { exportSVG } from './utils/shapes';
+import Footer from './components/Footer';
 
 function App() {
   const [shapes, setShapes] = useState<any[]>([]);
@@ -37,6 +38,7 @@ function App() {
           canvasRef={canvasRef} // canvasRef 전달
         />
       </div>
+      <Footer />
     </div>
   )
 }

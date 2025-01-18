@@ -1,5 +1,5 @@
 import styles from '../styles/ShapeControls.module.css';
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 
 interface ShapeControlsProps {
@@ -10,12 +10,14 @@ interface ShapeControlsProps {
     onExportSvg: () => void;
 }
 
-const ShapeControls: React.FC<ShapeControlsProps> = ({ shapes, selectedShape, setSelectedShape, updateShapes, onExportSvg }) => {
+export default function ShapeControls({ shapes, selectedShape, setSelectedShape, updateShapes, onExportSvg }: ShapeControlsProps) {
 
     const handleShapeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
         const shape = shapes.find(s => s.id === e.target.value);
         setSelectedShape(shape);
     };
+
+
 
     const handleAddShape = (type: string) => {
         const newShape = {
@@ -39,6 +41,7 @@ const ShapeControls: React.FC<ShapeControlsProps> = ({ shapes, selectedShape, se
                 <button onClick={() => handleAddShape('rect')}>Add Rectangle</button>
                 <button onClick={() => handleAddShape('circle')}>Add Circle</button>
                 <button onClick={() => handleAddShape('ellipse')}>Add Ellipse</button>
+                <button onClick={() => handleAddShape('polygon')}>Add Polygon</button>
             </div>
 
             <div className={styles['control-group']}>
@@ -59,7 +62,29 @@ const ShapeControls: React.FC<ShapeControlsProps> = ({ shapes, selectedShape, se
                     <label>Stroke Color</label>
                     <input type="color" value={selectedShape.stroke} onChange={e => updateShapeProperty('stroke', e.target.value)} />
                     <label>Stroke Width</label>
-                    <input type="number" value={selectedShape.strokeWidth} onChange={e => updateShapeProperty('strokeWidth', parseInt(e.target.value))} min="0" max="20" />
+                    <input type="number" value={selectedShape.strokeWidth}
+                        onChange={e => {
+                            const value = parseInt(e.target.value);
+                            if (value > 0) {
+                                updateShapeProperty('strokeWidth', value);
+                            }
+                        }} min="0" max="20" />
+                    <label>Shape Width</label>
+                    <input type="number" value={selectedShape.width}
+                        onChange={e => {
+                            const value = parseInt(e.target.value);
+                            if (value > 0) {
+                                updateShapeProperty('width', value);
+                            }
+                        }} min="1" max="1000" />
+                    <label>Shape Height</label>
+                    <input type="number" value={selectedShape.height}
+                        onChange={e => {
+                            const value = parseInt(e.target.value);
+                            if (value > 0) {
+                                updateShapeProperty('height', value);
+                            }
+                        }} min="1" max="1000" />
                 </div>
             )}
             <div className={styles['control-group']}>
@@ -73,6 +98,7 @@ const ShapeControls: React.FC<ShapeControlsProps> = ({ shapes, selectedShape, se
         </div>
     );
 
+    /** 선택된 모양의 속성 업데이트 */
     function updateShapeProperty(prop: string, value: any) {
         if (selectedShape) {
             const updatedShape = { ...selectedShape, [prop]: value };
@@ -81,5 +107,3 @@ const ShapeControls: React.FC<ShapeControlsProps> = ({ shapes, selectedShape, se
         }
     }
 }
-
-export default ShapeControls;
